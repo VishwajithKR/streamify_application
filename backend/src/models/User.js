@@ -3,40 +3,14 @@ import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 6,
-    },
-    bio: {
-      type: String,
-      default: "",
-    },
-    profilePic: {
-      type: String,
-      default: "",
-    },
-    nativeLanguage: {
-      type: String,
-      default: "",
-    },
-    location: {
-      type: String,
-      default: "",
-    },
-    isOnboarded: {
-      type: Boolean,
-      default: false,
-    },
+    fullName: {type: String, required: true},
+    email: {type: String, required: true, unique: true},
+    password: {type: String, required: true,minlength: 6},
+    bio: {type: String,default: "",},
+    profilePic: {type: String, default: "",},
+    nativeLanguage: {type: String,default: ""},
+    location: {type: String,default: ""},
+    isOnboarded: {type: Boolean,default: false},
     friends: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -47,7 +21,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("User", userSchema);
 
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
@@ -61,4 +34,10 @@ userSchema.pre("save", async function (next) {
         next(error);
     }
 })
+
+userSchema.methods.matchPassword = async function (enterPassword) {
+    return await bcrypt.compare(enterPassword, this.password);
+}
+
+const User = mongoose.model("User", userSchema);
 export default User;
