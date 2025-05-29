@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { upsertStreamUser } from "../lib/stream.js";
 
 dotenv.config();
 
@@ -43,15 +44,11 @@ export async function signup(req, res) {
         name: newUser.fullName,
         image: newUser.profilePic || "",
       });
-      console.log(`Stream user created ${fullName}`);
-    } catch (error) {}
-    const token = jwt.sign(
-      { userID: newUser._id },
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
+      console.log(`Stream user created ${newUser.fullName}`);
+    } catch (error) {
+      console.error("Error creating Stream user:", error);
+    }
+    const token = jwt.sign({ userID: newUser._id }, process.env.JWT_SECRET_KEY, {expiresIn: "2h"});
 
     res.cookie("jwt", token, {
       maxAge: 24 * 60 * 60 * 1000,
@@ -111,4 +108,36 @@ export async function login(req, res) {
 export async function logout(req, res) {
   res.clearCookie("jwt");
   res.status(200).json({ success: true, message: "Logout successful" });
+}
+
+export async function onboard(req, res) {
+ try {
+  const userId = req.user._id;
+  const {fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
+ 
+  if(!fullName || !bio || !nativeLanguage || !learningLanguage || !location){
+    return res.status(400).json({
+      message: "All fields are required",
+      missingFields: [
+        !fullName && "fullName",
+        !bio && "bio",
+        !nativeLanguage && "nativeLanguage",
+        !learningLanguage && "learningLanguage",
+        !location && "location",
+      ],
+    });
+  }
+  const updatedUser = await User.findOneAndUpdate(userId,{
+    ...req.body,
+    isOnboarded: true,
+  },{new: true});
+  if(!updatedUser){
+    return res.status(404).json({message: "User not found"});
+  }
+  res.status(200).json({success: true, user: updatedUser});
+   
+ } catch (error) {
+  console.error("Error in onboard middleware:", error);
+  res.status(500).json({message: "Internal server error"});
+ }
 }
