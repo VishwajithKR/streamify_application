@@ -102,4 +102,4 @@ export async function acceptFriendRequest(req,res) {
 
 export async function getFriendRequest (req,res){
 
-};
+}
