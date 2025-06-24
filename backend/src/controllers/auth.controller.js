@@ -27,16 +27,17 @@ export async function signup(req, res) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const idx = Math.floor(Math.random() * 100) + 1;
     const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
 
-    const newUser = await User.create({
+    const newUser = new User({
       fullName,
       email,
-      password: hashedPassword,
+      password, 
       profilePic: randomAvatar,
     });
+
+    await newUser.save();
 
     try {
       await upsertStreamUser({
