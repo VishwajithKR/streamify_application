@@ -27,16 +27,17 @@ export async function signup(req, res) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const idx = Math.floor(Math.random() * 100) + 1;
     const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
 
-    const newUser = await User.create({
+    const newUser = new User({
       fullName,
       email,
-      password: hashedPassword,
+      password, 
       profilePic: randomAvatar,
     });
+
+    await newUser.save();
 
     try {
       await upsertStreamUser({
@@ -134,6 +135,19 @@ export async function onboard(req, res) {
   if(!updatedUser){
     return res.status(404).json({message: "User not found"});
   }
+
+
+  try {
+    await upsertStreamUser({
+    id: updatedUser._id.toString(),
+    name: updatedUser.fullName,
+    image: updatedUser.profilePic || "",
+  });
+  console.log(`Stream user created ${updatedUser.fullName}`);
+  } catch (streamError) {
+    console.log("Error creating Stream user:", streamError.message);
+  }
+
   res.status(200).json({success: true, user: updatedUser});
    
  } catch (error) {
