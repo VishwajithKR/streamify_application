@@ -9,6 +9,7 @@ import Notification from "./pages/Notification";
 import OnBoardingPage from "./pages/OnBoardingPage";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const App = () => {
 // const [data,setData] = useState([]);
@@ -34,9 +35,8 @@ const App = () => {
 const {data,error,isLoading} = useQuery({
   queryKey:["todos"],
   queryFn: async ()=>{
-    const data  = await fetch ("https://jsonplaceholder.typicode.com/todos");
-    const json = await data.json();
-    return json;
+    const res  = await axios.get ("https://jsonplaceholder.typicode.com/todos");
+    return res.data;
   }
 })
 console.log(data)
