@@ -1,12 +1,58 @@
-# React + Vite
+# 🎬 Best Streamify Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+👨‍💻 Author
+Vishwajith K R
 
-Currently, two official plugins are available:
+A modern full-stack **video streaming application** built using:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ⚛️ React (Frontend)
+- 🚀 Node.js & Express (Backend)
+- 🍃 MongoDB (Database)
 
-## Expanding the ESLint configuration
+## 📦 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Layer       | Technology       |
+|-------------|------------------|
+| Frontend    | React            |
+| Backend     | Node.js, Express |
+| Database    | MongoDB          |
+
+## 📁 Project Structure
+
+
+my_project/
+├── frontend/ # React frontend app
+├── backend/ # Node.js + Express backend
+
+
+
+---
+
+## 🛠️ Features
+
+- ✅ User onboarding and authentication
+- ✅ Video upload and streaming
+- ✅ Secure API endpoints
+- ✅ Environment-based configuration
+- ✅ Responsive UI with modern design
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/-- - - - - - - - - - - -- - 
+cd app_name
+
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/*************************.git
+cd app_name
+
+Let me know if you’d like to add badges, live demo link, screenshots, or GitHub Actions setup!
+
+
