@@ -15,7 +15,7 @@ export const protectRoute = async (req, res, next) => {
                 return res.status(401).json({message: "Unauthorized - Invalid token"});
             }
 
-        const user = await User.findById(decode.userID).select("-password");
+        const user = await User.findById(decode.userID);
         console.log(user,"==user")   
             if(!user) {
                 return res.status(401).json({message: "Unauthorized - User not found"});
