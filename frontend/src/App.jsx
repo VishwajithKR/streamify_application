@@ -1,5 +1,4 @@
-import React, { use, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
@@ -9,47 +8,38 @@ import Notification from "./pages/Notification";
 import OnBoardingPage from "./pages/OnBoardingPage";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { axiosInstance } from "./lib/axios";
+
+const ProtectedRoute = ({ element, authUser }) => {
+  return authUser ? element : <Navigate to="/login" />;
+};
+
+const PublicRoute = ({ element, authUser }) => {
+  return !authUser ? element : <Navigate to="/" />;
+};
 
 const App = () => {
-// const [data,setData] = useState([]);
-// const [error,setError] = useState(null);
-// const [isLoading,setIsLoading] = useState(false);
+  const { data: authData, error, isLoading } = useQuery({
+    queryKey: ["authUser"],
+    queryFn: async () => {
+      const res = await axiosInstance.get("auth/me");
+      return res.data;
+    },
+    retry: false,
+  });
 
-// const getData = async ()=>{
-//   setIsLoading(true);
-//   try {
-//     const data  = await fetch ("https://jsonplaceholder.typicode.com/todos");
-//     const json = await data.json();
-//     setData(json);
-//   } catch (error) {
-//     setError(error);
-//   } finally {
-//     setIsLoading(false);
-//   }
-// }
-// useEffect(() => {
-//   getData();
-// },[])
+  const authUser = authData?.user;
 
-const {data,error,isLoading} = useQuery({
-  queryKey:["todos"],
-  queryFn: async ()=>{
-    const res  = await axios.get ("https://jsonplaceholder.typicode.com/todos");
-    return res.data;
-  }
-})
-console.log(data)
   return (
-    <div className=" h-screen w-screen" data-theme="light">
+    <div className="h-screen w-screen" data-theme="light">
       <Routes>
-        <Route path="/" element={<HomePage />}/>
-        <Route path="/signup" element={<SignUpPage />}/>
-        <Route path="/login" element={<LoginPage />}/>
-        <Route path="/notification" element={<Notification />}/>
-        <Route path="/call" element={<CallPage />}/>
-        <Route path="/chat" element={<ChatPage />}/>
-        <Route path="/onboarding" element={<OnBoardingPage />}/>
+        <Route path="/" element={<ProtectedRoute authUser={authUser} element={<HomePage />} />} />
+        <Route path="/signup" element={<PublicRoute authUser={authUser} element={<SignUpPage />} />} />
+        <Route path="/login" element={<PublicRoute authUser={authUser} element={<LoginPage />} />} />
+        <Route path="/notification" element={<ProtectedRoute authUser={authUser} element={<Notification />} />} />
+        <Route path="/call" element={<ProtectedRoute authUser={authUser} element={<CallPage />} />} />
+        <Route path="/chat" element={<ProtectedRoute authUser={authUser} element={<ChatPage />} />} />
+        <Route path="/onboarding" element={<ProtectedRoute authUser={authUser} element={<OnBoardingPage />} />} />
       </Routes>
     </div>
   );
