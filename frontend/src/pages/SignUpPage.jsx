@@ -3,8 +3,8 @@ import { ShipWheelIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Signup from '../assets/signup.svg'
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { axiosInstance } from '../lib/axios';
 import { signup } from '../lib/api';
+import useSignup from '../hooks/useSignup';
 
 const SignUpPage = () => {
 
@@ -14,15 +14,7 @@ const SignUpPage = () => {
     password: "",
   });
 
-const queryClient = useQueryClient();
-
-const { mutate:signUpMutation , isPending, error}= useMutation({
-  mutationFn: signup,
-  onSuccess: (data) => {
-    // console.log(data,"dd")
-    queryClient.invalidateQueries({ queryKey: ["authUser"]});
-  },
-})
+  const { isPending, error, signUpMutation } = useSignup();
 
   const handleSignUp =  (e) => {
     e.preventDefault();
@@ -79,7 +71,7 @@ const { mutate:signUpMutation , isPending, error}= useMutation({
                  </label>
                 </div>
               </div>
-              <button className='btn btn-primary w-full mt-4' type='submit'> {isPending ? "Signing Up..." : "Create Account"}</button>
+              <button className='btn btn-primary w-full mt-4' type='submit'> {isPending ? <> <span className='loading loading-spinner loading-xs'/> Loading...</> : "Create Account"}</button>
               <div className='text-center mt-4'>
                 <p className='text-sm'>
                   Already have an account? <Link to="/login" className='text-primary hover:underline'>Sign in</Link>
