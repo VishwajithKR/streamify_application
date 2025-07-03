@@ -2,15 +2,17 @@ import React from 'react'
 import useAuthUser from '../hooks/useUserAuth';
 import { Link, useLocation } from 'react-router-dom';
 import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from 'lucide-react';
+import { useThemeStore } from '../store/useThemeStore';
 
 const Sidebar = () => {
 const {authUser} = useAuthUser();
+ const {theme} = useThemeStore();
 const location = useLocation();
 const currentPath = location.pathname;
 
 
   return (
-   <aside data-theme="forest" className='w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0'>
+   <aside data-theme={theme} className='w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0'>
       <div className="p-5 border-b border-base-300">
         <Link to="/" className="flex items-center gap-2.5">
           <ShipWheelIcon className="size-9 text-primary" />

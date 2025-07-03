@@ -2,9 +2,9 @@ import React from 'react'
 import { ShipWheelIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Signup from '../assets/signup.svg'
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { signup } from '../lib/api';
 import useSignup from '../hooks/useSignup';
+import { useThemeStore } from '../store/useThemeStore';
 
 const SignUpPage = () => {
 
@@ -13,6 +13,7 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
+  const {theme} = useThemeStore();
 
   const { isPending, error, signUpMutation } = useSignup();
 
@@ -21,7 +22,7 @@ const SignUpPage = () => {
     signUpMutation(signUpData);
   }
   return (
-    <div className='h-screen w-full select-none flex justify-center items-center p-4 sm:p-6 md:p-8' data-theme="forest">
+    <div className='h-screen w-full select-none flex justify-center items-center p-4 sm:p-6 md:p-8' data-theme={theme}>
       <div className='border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden'>
         <div className='w-full lg:w-1/2 p-4 sm:p-8 flex flex-col'>
           <div className='mb-4 flex  items-center justify-start gap-2'>

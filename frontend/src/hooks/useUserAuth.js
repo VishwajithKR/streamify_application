@@ -7,7 +7,6 @@ const useAuthUser = ()=>{
         queryFn:getAuthUser,
         retry: false
     })
-    console.log(authUser,"kk")
     return {
         authUser: authUser?.data?.user,
         isLoading: authUser?.isLoading,
