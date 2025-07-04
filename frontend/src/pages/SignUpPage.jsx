@@ -15,11 +15,11 @@ const SignUpPage = () => {
   });
   const {theme} = useThemeStore();
 
-  const { isPending, error, signUpMutation } = useSignup();
+  const { signupMutation,isPending, error   } = useSignup();
 
   const handleSignUp =  (e) => {
     e.preventDefault();
-    signUpMutation(signUpData);
+    signupMutation(signUpData);
   }
   return (
     <div className='h-screen w-full select-none flex justify-center items-center p-4 sm:p-6 md:p-8' data-theme={theme}>

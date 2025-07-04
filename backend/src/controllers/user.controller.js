@@ -9,7 +9,7 @@ export async function getRecommendedUsers(req, res) {
     const recommendedUser = await User.find({
       $and: [
         { _id: { $ne: currentUserId } },
-        { $id: { $nin: currentUser.friends } },
+        { _id: { $nin: currentUser.friends } },
         { isOnboarded: true },
       ],
     });
@@ -126,17 +126,12 @@ export async function getFriendRequest(req, res) {
   }
 }
 
-export async function getOutgoingFriendRequests (){
+export async function getOutgoingFriendRequests (req,res){
     try {
         const outgoingRequests = await FriendRequest.find({
             sender: req.user.id,
             status: "pending",
         }).populate("recipient", "fullName profilePic nativeLanguage learningLanguage");
-
-        // const incomingRequests = await FriendRequest.find({
-        //     recipient: req.user.id,
-        //     status: "accepted",
-        // }).populate("sender", "fullName profilePic nativeLanguage learningLanguage");
         res.status(200).json({ outgoingRequests });
     } catch (error) {
         console.error("Error in getOutgoingFriendRequests:", error);

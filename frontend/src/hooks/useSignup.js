@@ -11,7 +11,7 @@ const useSignup = () => {
     },
   });
 
-  return { signupMutation: mutate, isPending: isPending, error: error };
+   return { isPending, error, signupMutation: mutate };
 };
 
 export default useSignup;
