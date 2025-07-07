@@ -77,7 +77,7 @@ export async function login(req, res) {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).send("All fields are required");
+      return res.status(400).json({message:"All fields are required"});
     }
     const user = await User.findOne({ email });
     if (!user) {
@@ -86,7 +86,7 @@ export async function login(req, res) {
 
     const isPasswordCorrect = await user.matchPassword(password);
     if (!isPasswordCorrect) {
-      return res.status(401).send("Invalid password");
+      return res.status(401).json({ message: "Invalid password"});
     }
     const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "2h",
