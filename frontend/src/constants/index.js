@@ -169,6 +169,7 @@ export const LANGUAGES = [
   "German",
   "Mandarin",
   "Japanese",
+  "Tamil",
   "Korean",
   "Hindi",
   "Russian",
@@ -181,6 +182,7 @@ export const LANGUAGES = [
 
 export const LANGUAGE_TO_FLAG = {
   english: "gb",
+  tmail: "in",
   spanish: "es",
   french: "fr",
   german: "de",
