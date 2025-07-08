@@ -5,7 +5,8 @@ import {
   getFriendRequest,
   getMyFriends,
   getRecommendedUsers,
-  sendFriendRequest,getOutgoingFriendRequests
+  sendFriendRequest,
+  getOutgoingFriendRequests
 } from "../controllers/user.controller.js";
 
 const router = express.Router();

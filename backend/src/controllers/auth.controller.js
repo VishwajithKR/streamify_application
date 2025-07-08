@@ -1,10 +1,7 @@
 import User from "../models/User.js";
-import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 import { upsertStreamUser } from "../lib/stream.js";
 
-dotenv.config();
 
 export async function signup(req, res) {
   const { fullName, email, password } = req.body;

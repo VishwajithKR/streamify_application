@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv from "dotenv";
+import "dotenv/config";
 import cors from "cors";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
@@ -11,7 +11,6 @@ import path from "path";
 const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
-dotenv.config();
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
@@ -25,8 +24,8 @@ app.use("/api/chat",chatRoutes);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  app.get(/^\/(?!api).*/, (req, res) => {
+    res.sendFile(new URL("../frontend/dist/index.html", import.meta.url).pathname);
   });
 }
 
