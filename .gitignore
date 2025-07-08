@@ -7,19 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependency folders
-node_modules/
-
-# Build outputs
+node_modules
 dist
 dist-ssr
 *.local
-
-# Environment variables
-.env
-
-# Lock files
-package-lock.json
 
 # Editor directories and files
 .vscode/*
@@ -31,3 +22,5 @@ package-lock.json
 *.njsproj
 *.sln
 *.sw?
+
+.env
